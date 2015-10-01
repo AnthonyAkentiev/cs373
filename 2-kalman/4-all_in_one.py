@@ -1,4 +1,5 @@
 # KALMAN filter for 1d
+# www.udacity.com/course/viewer#!/c-cs373/l-48723604/e-48311864/m-48700413
 
 # Was called 'calcNewPos' before
 def update(mean1,var1, mean2,var2):
