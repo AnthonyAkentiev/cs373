@@ -27,10 +27,9 @@ class robot:
         self.y = float(new_y)
         self.orientation = float(new_orientation)
 
-
+   # makes it possible to change the noise parameters
+   # this is often useful in particle filters
     def set_noise(self, new_f_noise, new_t_noise, new_s_noise):
-        # makes it possible to change the noise parameters
-        # this is often useful in particle filters
         self.forward_noise = float(new_f_noise);
         self.turn_noise    = float(new_t_noise);
         self.sense_noise   = float(new_s_noise);
@@ -66,16 +65,12 @@ class robot:
         res.set_noise(self.forward_noise, self.turn_noise, self.sense_noise)
         return res
 
+   # calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma
     def Gaussian(self, mu, sigma, x):
-
-        # calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma
         return exp(- ((mu - x) ** 2) / (sigma ** 2) / 2.0) / sqrt(2.0 * pi * (sigma ** 2))
 
-
+   # calculates how likely a measurement should be
     def measurement_prob(self, measurement):
-
-        # calculates how likely a measurement should be
-
         prob = 1.0;
         for i in range(len(landmarks)):
             dist = sqrt((self.x - landmarks[i][0]) ** 2 + (self.y - landmarks[i][1]) ** 2)
