@@ -37,6 +37,7 @@ def search(grid,init,goal,cost):
     # ----------------------------------------
      closed = [[0 for row in range(len(grid[0]))] for col in range(len(grid))]
      closed[init[0]][init[1]] = 1
+     expand = [[-1 for row in range(len(grid[0]))] for col in range(len(grid))]
 
      x = init[0]
      y = init[1]
@@ -47,18 +48,23 @@ def search(grid,init,goal,cost):
 
      found = False
      resign = False
+     count = 0
 
      while found is False and resign is False:
           if len(open)==0:
                resign = True
                print 'fail'
           else:
+               # remove from node list
                open.sort()
                open.reverse()
                next = open.pop()
                x = next[1]
                y = next[2]
                g = next[0]
+
+               expand[x][y] = count
+               count+=1
 
                if x==goal[0] and y==goal[1]:
                     found = True
@@ -73,6 +79,11 @@ def search(grid,init,goal,cost):
                                    g2 = g + cost
                                    open.append([g2, x2, y2])
                                    closed[x2][y2] = 1
+
+     for i in range(len(expand)):
+          print expand[i]
+
+     return expand
 
 # Start
 print search(grid,init,goal,cost)
