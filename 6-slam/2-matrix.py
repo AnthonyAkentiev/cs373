@@ -321,7 +321,7 @@ which should return a mu of:
  [2.0],
  [5.0]]
 """
-def doit(init, move1, move2):
+def doit(init, move1, move2, z0, z1, z2):
     #
     #
     # Add your code here.
@@ -342,9 +342,40 @@ def doit(init, move1, move2):
     res = omega.inverse() * Xi
     res.show('Results: ')
 
+    # adding landmarks:
+    omega = omega.expand(4,4,[0,1,2],[0,1,2])
+    Xi = Xi.expand(4,1,[0,1,2],[0])
+
+    # 1
+    omega+=matrix([
+          [1.,0.,0.,-1.],
+          [0.,0.,0.,0.],
+          [0.,0.,0.,0.],
+          [-1.,0.,0.,1.]])
+
+    Xi+=matrix([[-z0],[0.],[0.],[z0]])
+
+    # 2
+    omega+=matrix([
+          [0.,0.,0.,0.],
+          [0.,1.,0.,-1.],
+          [0.,0.,0.,0.],
+          [0.,-1.,0.,1.]])
+    Xi+=matrix([[0],[-z1],[0.],[z1]])
+
+    # 3
+    omega+=matrix([
+          [0.,0.,0.,0.],
+          [0.,0.,0.,0.],
+          [0.,0.,1.,-1.],
+          [0.,0.,-1.,1.]])
+    Xi+=matrix([[0.],[0.],[-z2],[z2]])
+
+    res = omega.inverse() * Xi
+
     return res 
 
-doit(-3, 5, 3)
+doit(-3, 5, 3, 10, 5,2)
 
 
 
